@@ -1,0 +1,24 @@
+NAME : single.3116.tour
+COMMENT : Length = 3116
+COMMENT : Found by LKH [Keld Helsgaun] Fri Mar 17 16:42:32 2023
+TYPE : TOUR
+DIMENSION : 16
+TOUR_SECTION
+1
+15
+13
+12
+11
+10
+9
+8
+16
+14
+6
+7
+5
+3
+2
+4
+-1
+EOF
