@@ -1,0 +1,7 @@
+<launch>
+    <param name = "saveImage" value = "false" type = "bool" />
+	<node pkg="demo_cpp" type="px4ctrl_node" name="px4ctrl" output="screen">
+		<!-- 	<remap from="~odom" to="/vrpn_client_node/UAV/pose" /> -->
+	</node>
+ 
+</launch>
