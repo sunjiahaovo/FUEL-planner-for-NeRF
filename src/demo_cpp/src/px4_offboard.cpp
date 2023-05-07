@@ -18,9 +18,9 @@ int main(int argc, char* argv[]){
     Controller ctl;
 
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("/mavros/state", 10, boost::bind(&Controller::state_callback, &ctl, _1));
-    ros::Subscriber pose_sub = nh.subscribe<nav_msgs::Odometry>("/vins_fusion/odometry", 10, boost::bind(&Controller::odom_callback, &ctl, _1));                       
-    // ctl.vision_pub = nh.advertise<geometry_msgs::PoseStamped>("/mavros/vision_pose/pose", 10);
-    ctl.odometry_pub = nh.advertise<nav_msgs::Odometry>("/mavros/odometry/out", 10);
+    ros::Subscriber pose_sub = nh.subscribe<nav_msgs::Odometry>("/cam_2/odom/sample", 10, boost::bind(&Controller::pos_callback, &ctl, _1));  
+    // ros::Subscriber odometry_pub = nh.advertise<nav_msgs::Odometry>("/mavros/odometry/out", 10);                   
+    ctl.vision_pub = nh.advertise<geometry_msgs::PoseStamped>("/mavros/vision_pose/pose", 10);
     ros::Subscriber retPose = nh.subscribe<geometry_msgs::PoseStamped>("/mavros/local_position/pose", 10, retPose_callback);
     ctl.target_pub = nh.advertise<mavros_msgs::PositionTarget>("/mavros/setpoint_raw/local", 10);
     ros::Rate rate(200);
@@ -32,8 +32,8 @@ int main(int argc, char* argv[]){
 
     
     for(int i = 100; ros::ok() && i > 0; --i){
-        // ctl.vision_pub.publish(ctl.getPose());
-        ctl.odometry_pub.publish(ctl.getOdom());
+        ctl.vision_pub.publish(ctl.getPose());
+        // ctl.odometry_pub.publish(ctl.getOdom());
         ctl.target_pub.publish(ctl.getWaypoint());
         ros::spinOnce();
         rate.sleep();
@@ -52,8 +52,8 @@ int main(int argc, char* argv[]){
             trigger2arm = true;
         }
             
-        // ctl.vision_pub.publish(ctl.getPose());
-        ctl.odometry_pub.publish(ctl.getOdom());
+        ctl.vision_pub.publish(ctl.getPose());
+        // ctl.odometry_pub.publish(ctl.getOdom());
         ctl.target_pub.publish(ctl.getWaypoint());
         ros::spinOnce();
         rate.sleep();

@@ -1,5 +1,6 @@
 #include<demo_cpp/controller.h>
 
+
 Controller::Controller() : idx(0), isarrived(false){
     waypoints.clear();
     this->setWaypoints();
@@ -77,26 +78,48 @@ mavros_msgs::PositionTarget Controller::getWaypoint(){
 }
 
 geometry_msgs::PoseStamped Controller::getPose(){
+    // tf2::Quaternion transform;
+    // transform.setRPY(0, 0, 0);
+    // tf2::Quaternion q;
+    // tf2::fromMsg(this->local_pos.pose.orientation, q);
+    // q.normalize();
+    // tf2::Quaternion q_new ;
+    // q_new = transform * q;
+    // q_new.normalize();
+    // this->local_pos.pose.orientation = tf2::toMsg(q_new);
+
+    this->local_pos.pose.position.x = pos_drone_t265[0];
+    this->local_pos.pose.position.y = pos_drone_t265[1];
+    this->local_pos.pose.position.z = pos_drone_t265[2];
+
+    this->local_pos.pose.orientation.x = q_t265.x();
+    this->local_pos.pose.orientation.y = q_t265.y();
+    this->local_pos.pose.orientation.z = q_t265.z();
+    this->local_pos.pose.orientation.w = q_t265.w();
+    
     this->local_pos.header.stamp = ros::Time::now();
-    this->local_pos.header.frame_id = "world";
+    // this->local_pos.header.frame_id = "world";
     return local_pos;
 }
 
 nav_msgs::Odometry Controller::getOdom(){
     this->local_odom.header.stamp = ros::Time::now();
-    
-    this->local_odom.header.frame_id = "odom_ned";
+    this->local_odom.header.frame_id = "odom";
+    this->local_odom.child_frame_id = "base_link_frd";
     return local_odom;
 }
 
 void Controller::pos_callback(nav_msgs::OdometryConstPtr msg){
-    this->local_pos.pose.position.x = msg->pose.pose.position.x;
-    this->local_pos.pose.position.y = msg->pose.pose.position.y;
-    this->local_pos.pose.position.z = msg->pose.pose.position.z;
-    this->local_pos.pose.orientation.w = msg->pose.pose.orientation.w;
-    this->local_pos.pose.orientation.x = msg->pose.pose.orientation.x;
-    this->local_pos.pose.orientation.y = msg->pose.pose.orientation.y;
-    this->local_pos.pose.orientation.z = msg->pose.pose.orientation.z;
+    // this->local_pos.pose.position.x = -msg->pose.pose.position.y;
+    // this->local_pos.pose.position.y = msg->pose.pose.position.x;
+    // this->local_pos.pose.position.z = msg->pose.pose.position.z;
+    // this->local_pos.pose.orientation.w = msg->pose.pose.orientation.w;
+    // this->local_pos.pose.orientation.x = msg->pose.pose.orientation.x;
+    // this->local_pos.pose.orientation.y = msg->pose.pose.orientation.y;
+    // this->local_pos.pose.orientation.z = msg->pose.pose.orientation.z;
+    pos_drone_t265 = Eigen::Vector3d(msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z);
+    q_t265 = Eigen::Quaterniond(msg->pose.pose.orientation.w, msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, 
+                                msg->pose.pose.orientation.z);
     // Quaternion2Euler(this->local_pos);
 }
 

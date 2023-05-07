@@ -23,7 +23,10 @@
 #include <fstream>
 #include <sstream>
 
-
+#include<tf2_ros/static_transform_broadcaster.h>
+#include<geometry_msgs/TransformStamped.h>
+#include<tf2/LinearMath/Quaternion.h>
+#include<tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 class Controller{
 private:
@@ -38,6 +41,9 @@ public:
     ros::Publisher target_pub;
     ros::Publisher vision_pub;
     ros::Publisher odometry_pub;
+    tf2_ros::StaticTransformBroadcaster broadcaster;
+    Eigen::Vector3d pos_drone_t265;
+    Eigen::Quaterniond q_t265;
 
 public:
     Controller();
