@@ -44,6 +44,8 @@ public:
     tf2_ros::StaticTransformBroadcaster broadcaster;
     Eigen::Vector3d pos_drone_t265;
     Eigen::Quaterniond q_t265;
+    Eigen::Vector3d pos_drone_vins;
+    Eigen::Quaterniond q_vins;    
 
 public:
     Controller();

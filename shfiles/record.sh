@@ -9,4 +9,5 @@ rosbag record --tcpnodelay \
 # /vins_fusion/odometry \
 # /vins_fusion/path \
 # /vins_fusion/odometry \
-# /vrpn_client_node/jiahao_sun/pose \
+/vrpn_client_node/jiahao_sun/pose \
+/mavros/local_position/pose

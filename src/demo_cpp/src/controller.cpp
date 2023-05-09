@@ -103,9 +103,18 @@ geometry_msgs::PoseStamped Controller::getPose(){
 }
 
 nav_msgs::Odometry Controller::getOdom(){
+    // this->local_pos.pose.position.x = pos_drone_vins[0];
+    // this->local_pos.pose.position.y = pos_drone_vins[1];
+    // this->local_pos.pose.position.z = pos_drone_vins[2];
+
+    // this->local_pos.pose.orientation.x = q_vins.x();
+    // this->local_pos.pose.orientation.y = q_vins.y();
+    // this->local_pos.pose.orientation.z = q_vins.z();
+    // this->local_pos.pose.orientation.w = q_vins.w();
+    
     this->local_odom.header.stamp = ros::Time::now();
     this->local_odom.header.frame_id = "odom";
-    this->local_odom.child_frame_id = "base_link_frd";
+    this->local_odom.child_frame_id = "base_link";
     return local_odom;
 }
 
@@ -125,6 +134,9 @@ void Controller::pos_callback(nav_msgs::OdometryConstPtr msg){
 
 void Controller::odom_callback(nav_msgs::Odometry::ConstPtr msg){
     this->local_odom = *msg;
+    // pos_drone_vins = Eigen::Vector3d(msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z);
+    // q_vins = Eigen::Quaterniond(msg->pose.pose.orientation.w, msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, 
+    //                             msg->pose.pose.orientation.z);
     // Quaternion2Euler(this->local_pos);
 }
 
