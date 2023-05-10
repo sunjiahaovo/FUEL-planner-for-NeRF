@@ -10,11 +10,11 @@ Controller::Controller() : idx(0), isarrived(false){
 }
 
 void Controller::setWaypoints(){
-    double r = 1.32;
+    double r = 1.0;
     double angle = 0;
     double bodyangle = angle;
     double angleStep = 30;
-    double initx = -1.32;
+    double initx = -1.0;
     double inity = 0;
     double initz = 0.8;
     waypoints.push_back({initx, inity, initz, angles::from_degrees(bodyangle)});
@@ -51,15 +51,17 @@ void Controller::setWaypoints(){
 
 mavros_msgs::PositionTarget Controller::getWaypoint(){
     std::vector<double> waypoint;
-    Eigen::Vector3d dis = {this->target_pos.position.x - this->local_pos.pose.position.x, this->target_pos.position.y - this->local_pos.pose.position.y
-    , this->target_pos.position.z - this->local_pos.pose.position.z};
-    // ROS_INFO_STREAM("distance is " << dis.squaredNorm());
+    // Eigen::Vector3d dis = {this->target_pos.position.x - this->local_pos.pose.position.x, this->target_pos.position.y - this->local_pos.pose.position.y
+    // , this->target_pos.position.z - this->local_pos.pose.position.z};
+    Eigen::Vector3d dis = {this->target_pos.position.x - this->local_odom.pose.pose.position.x, this->target_pos.position.y - this->local_odom.pose.pose.position.y
+    , this->target_pos.position.z - this->local_odom.pose.pose.position.z};
+    ROS_INFO_STREAM("distance is " << dis.squaredNorm());
     static ros::Time start_time;
     if(dis.squaredNorm() < 0.05 && !isarrived){
         isarrived = true;
         start_time = ros::Time::now();
     }
-    // ROS_INFO_STREAM(isarrived);
+    ROS_INFO_STREAM(isarrived);
     if(isarrived && ros::Time::now() - start_time > ros::Duration(5)){
         isarrived = false;
         this->idx = (this->idx + 1) % waypoints.size();

@@ -21,7 +21,7 @@ int main(int argc, char* argv[]){
     // ros::Subscriber pose_sub = nh.subscribe<nav_msgs::Odometry>("/cam_2/odom/sample", 10, boost::bind(&Controller::pos_callback, &ctl, _1)); 
     ros::Subscriber pose_sub = nh.subscribe<nav_msgs::Odometry>("/vins_fusion/odometry", 10, boost::bind(&Controller::odom_callback, &ctl, _1));  
     ctl.odometry_pub = nh.advertise<nav_msgs::Odometry>("/mavros/odometry/out", 10);                   
-    ctl.vision_pub = nh.advertise<geometry_msgs::PoseStamped>("/mavros/vision_pose/pose", 10);
+    // ctl.vision_pub = nh.advertise<geometry_msgs::PoseStamped>("/mavros/vision_pose/pose", 10);
     ros::Subscriber retPose = nh.subscribe<geometry_msgs::PoseStamped>("/mavros/local_position/pose", 10, retPose_callback);
     ctl.target_pub = nh.advertise<mavros_msgs::PositionTarget>("/mavros/setpoint_raw/local", 10);
     ros::Rate rate(200);

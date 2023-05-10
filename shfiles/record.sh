@@ -4,10 +4,9 @@ rosbag record --tcpnodelay \
 /camera/aligned_depth_to_color/camera_info \
 /camera/color/camera_info \
 /camera/color/image_raw \
-# /vins_fusion/camera_pose \
-# /vins_fusion/imu_propagate \
-# /vins_fusion/odometry \
-# /vins_fusion/path \
-# /vins_fusion/odometry \
+/vins_fusion/camera_pose \
+/vins_fusion/imu_propagate \
+/vins_fusion/odometry \
+/vins_fusion/path \
 /vrpn_client_node/jiahao_sun/pose \
 /mavros/local_position/pose
